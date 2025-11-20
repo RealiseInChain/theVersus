@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Versus</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Écran 1: Choix de la Faction -->
+    <div class="screen" id="faction-screen">
+        <div class="login-container">
+            <a href="#" class="login-btn">Login</a>
+        </div>
+        <div class="background-image" id="architects-bg" style="background-image: url('archi.jpg');"></div>
+        <div class="background-image" id="chaotics-bg" style="background-image: url('demon.jpg');"></div>
+        
+        <div class="faction-choice-container">
+            <div class="header-text">
+                <h1>Choose Your Path</h1>
+                <p>Your allegiance defines your journey. There is no turning back.</p>
+            </div>
+            <div class="choices">
+                <div class="choice-door" id="architects" data-faction="Architects">
+                    <div class="door-content">
+                        <h2>Architects</h2>
+                        <p>Logic, Order, Precision.</p>
+                    </div>
+                    <div class="confirmation-shape"></div>
+                </div>
+                <div class="choice-door" id="chaotics" data-faction="Chaotics">
+                     <div class="door-content">
+                        <h2>Chaotics</h2>
+                        <p>Intuition, Chaos, Creation.</p>
+                    </div>
+                    <div class="confirmation-shape"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

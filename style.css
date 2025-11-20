@@ -1,0 +1,123 @@
+:root {
+    --bg-color: #0d0d0f;
+    --text-color: #e0e0e0;
+    --text-muted: #7a7a7a;
+    --architect-primary: #00aeff;
+    --chaotic-primary: #ff4757;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --font-main: 'Orbitron', sans-serif;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300&display=swap');
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* --- SYSTÈME D'ÉCRANS --- */
+.screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transition: opacity 0.8s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* --- ÉCRAN 1 : CHOIX DE FACTION --- */
+#faction-screen {
+    position: relative;
+    transition: opacity 0.8s ease, filter 0.8s ease;
+}
+
+/* BOUTON LOGIN */
+.login-container {
+    position: absolute;
+    top: 2.5rem;
+    right: 2.5rem;
+    z-index: 10;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.login-btn {
+    color: var(--text-color);
+    text-decoration: none;
+    border: 1px solid var(--border-color);
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    font-family: var(--font-main);
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+.login-btn:hover {
+    color: var(--text-color);
+    border-color: var(--text-color);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    z-index: -1;
+}
+#faction-screen.architects-active #architects-bg,
+#faction-screen.chaotics-active #chaotics-bg { opacity: 0.2; }
+#faction-screen .faction-choice-container { text-align: center; }
+#faction-screen .header-text { transition: opacity 0.5s ease, transform 0.5s ease; }
+#faction-screen .header-text h1 { font-family: var(--font-main); font-size: 3.5rem; text-transform: uppercase; }
+#faction-screen .header-text p { font-size: 1.2rem; color: var(--text-muted); margin: 0.5rem 0 3rem; }
+#faction-screen .choices { display: flex; gap: 2rem; perspective: 1000px; } /* Perspective ajoutée ici */
+#faction-screen .choice-door { width: 350px; height: 450px; border: 2px solid var(--border-color); border-radius: 12px; display: flex; justify-content: center; align-items: center; cursor: pointer; position: relative; text-align: center; overflow: hidden; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+#faction-screen .door-content h2 { font-family: var(--font-main); font-size: 2rem; margin: 0; }
+#faction-screen .door-content p { color: var(--text-muted); }
+
+/* Effets de survol */
+@keyframes pulse-architect { 0% { box-shadow: 0 0 10px var(--architect-primary), 0 0 20px var(--architect-primary); }
+    50% { box-shadow: 0 0 20px var(--architect-primary), 0 0 40px var(--architect-primary); }
+    100% { box-shadow: 0 0 10px var(--architect-primary), 0 0 20px var(--architect-primary); } }
+@keyframes pulse-chaotic { 0% { box-shadow: 0 0 10px var(--chaotic-primary), 0 0 20px var(--chaotic-primary); }
+    50% { box-shadow: 0 0 20px var(--chaotic-primary), 0 0 40px var(--chaotic-primary); }
+    100% { box-shadow: 0 0 10px var(--chaotic-primary), 0 0 20px var(--chaotic-primary); } }
+
+#faction-screen.architects-active #architects { border-color: var(--architect-primary); transform: scale(1.05); animation: pulse-architect 2s infinite; }
+#faction-screen.chaotics-active #chaotics { border-color: var(--chaotic-primary); transform: scale(1.05); animation: pulse-chaotic 2s infinite; }
+
+#faction-screen.architects-active #chaotics { transform: scale(0.9) translateX(50px) rotateY(-15deg); opacity: 0.4; }
+#faction-screen.chaotics-active #architects { transform: scale(0.9) translateX(-50px) rotateY(15deg); opacity: 0.4; }
+
+#faction-screen.architects-active .header-text,
+#faction-screen.chaotics-active .header-text,
+#faction-screen.architects-active .login-container,
+#faction-screen.chaotics-active .login-container { opacity: 0; transform: translateY(-50px); }
+
+/* Séquence de clic */
+.dissolving-out { opacity: 0 !important; transform: scale(0.9); transition: opacity 0.5s ease, transform 0.5s ease; }
+#architects.is-centering { transform: translateX(183px); }
+#chaotics.is-centering { transform: translateX(-183px); }
+.confirmation-shape { position: absolute; width: 100%; height: 100%; top: 0; left: 0; border-radius: 12px; transform: scale(0); opacity: 0; }
+.choice-door.is-confirming .confirmation-shape { animation: lol-confirm 1.2s cubic-bezier(0.19, 1, 0.22, 1); }
+@keyframes lol-confirm { 0% { transform: scale(0); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.5; } 100% { transform: scale(2); opacity: 0; } }
+#architects .confirmation-shape { border: 4px solid var(--architect-primary); box-shadow: 0 0 30px var(--architect-primary); }
+#chaotics .confirmation-shape { border: 4px solid var(--chaotic-primary); box-shadow: 0 0 30px var(--chaotic-primary); }
+.screen.is-leaving { animation: dissolve-screen 0.8s forwards; }
+@keyframes dissolve-screen { to { opacity: 0; filter: blur(10px); } }
+
